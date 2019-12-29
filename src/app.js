@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const eateriesRouter = require('./eateries/eateries-router');
-// require router here
+const flavorLogsRouter = require('./flavorLogs/flavorLogs-router');
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(helmet());
 
 
 app.use('/api/eateries', eateriesRouter);
-// app.use('/api/logs', logsRouter);
+app.use('/api/flavorLogs', flavorLogsRouter);
 
 app.get('/api', (req, res) => {
      res.json({ok: 'ok'});

@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 const knex = require('knex');
 const app = require('../src/app');
-const { makeEateriesArray, makeEateriesNoId } = require('./eateries.fixtures')
+const { makeEateriesArray, makeEateriesNoId } = require('./eateries.fixtures');
 
 describe('Eateries Endpoints', () => {
     let db;
@@ -20,7 +20,7 @@ describe('Eateries Endpoints', () => {
 
     before('clean the table', () => db.raw('TRUNCATE flavorlogs_eateries, flavorlogs_logs RESTART IDENTITY CASCADE'));
 
-    afterEach('cleanup', () => db.raw('TRUNCATE flavorlogs_eateries, flavorlogs_logs RESTART IDENTITY CASCADE'))
+    afterEach('cleanup', () => db.raw('TRUNCATE flavorlogs_eateries, flavorlogs_logs RESTART IDENTITY CASCADE'));
 
     describe(`GET /api/eateries`, () => {
         context('Given no eateries', () => {
