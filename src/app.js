@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
-// require router here
+const eateriesRouter = require('./eateries/eateries-router');
 // require router here
 
 const app = express();
@@ -18,12 +18,12 @@ app.use(cors());
 app.use(helmet());
 
 
-// app.use('/api/eateries', eateriesRouter);
+app.use('/api/eateries', eateriesRouter);
 // app.use('/api/logs', logsRouter);
 
-// app.get('/api', (req, res) => {
-//      res.json({ok: 'ok});
-//});
+app.get('/api', (req, res) => {
+     res.json({ok: 'ok'});
+});
 
 app.get('/', (req, res) => {
     res.send('Hello, world!');
