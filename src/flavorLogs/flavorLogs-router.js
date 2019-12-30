@@ -53,13 +53,26 @@ flavorLogsRouter
         .catch(next);
     });
 
-// flavorLogsRouter
-//     .route('/:flavorLogs_id')
-//     .all((req, res, next) => {
-//         FlavorLogsService.getById(
-//             req.app.get('db'),
-//             req.params.flavorLogs_id
-//         )
-//     })
+flavorLogsRouter
+    .route('/:flavorLog_id')
+    .all((req, res, next) => {
+        FlavorLogsService.getById(
+            req.app.get('db'),
+            req.params.flavorLog_id
+        )
+        .then(flavorLog => {
+            if(!flavorLog) {
+                return res.status(404).json({
+                    error: { message: `Flavor Log doesn't exist`}
+                });
+            }
+            res.flavorLog = flavorLog;
+            next();
+        })
+        .catch(next);
+    })
+    .get((req, res, next) => {
+        res.json(serializedFlavorLog(res.flavorLog));
+    });
 
 module.exports = flavorLogsRouter;

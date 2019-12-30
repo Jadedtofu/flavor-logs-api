@@ -112,7 +112,6 @@ describe('Eateries Endpoints', () => {
                         .expect(res.body)
                 });
         });
-
     });
 
     // DELETE /api/eateries/:eatery_id
