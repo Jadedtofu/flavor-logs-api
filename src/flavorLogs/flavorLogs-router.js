@@ -13,7 +13,7 @@ const serializedFlavorLog = flavorLog => ({
     info: xss(flavorLog.info),
     ordered: xss(flavorLog.ordered),
     rating: flavorLog.rating,
-    date: new Date(flavorLog.date),
+    date: xss(flavorLog.date),
     eatery_id: flavorLog.eatery_id,
 });
 
@@ -29,8 +29,8 @@ flavorLogsRouter
         .catch(next);
     })
     .post(jsonParser, (req, res, next) => {
-        const { title, info, ordered, rating, eatery_id } = req.body;
-        const newFlavorLog = { title, info, ordered, rating, eatery_id };
+        const { title, info, ordered, rating, date, eatery_id } = req.body;
+        const newFlavorLog = { title, info, ordered, rating, date, eatery_id };
 
         for (const [key, value] of Object.entries(newFlavorLog)) {
             if (value == null) {

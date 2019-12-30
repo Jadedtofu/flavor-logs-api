@@ -4,7 +4,7 @@ CREATE TABLE flavorlogs_logs (
     info TEXT NOT NULL,
     ordered TEXT NOT NULL,
     rating INTEGER,
-    date TIMESTAMP DEFAULT now() NOT NULL,
+    date TEXT NOT NULL,
     eatery_id INTEGER
         REFERENCES flavorlogs_eateries(id) ON DELETE CASCADE NOT NULL
 );

@@ -43,15 +43,7 @@ describe('FlavorLogs Endpoints', () => {
                     .then(() => {
                         return db
                             .into(`flavorlogs_logs`)
-                            .insert(testFlavorLogs.map(testFlavorLog => ({
-                                id: testFlavorLog.id,
-                                title: testFlavorLog.title,
-                                info: testFlavorLog.info,
-                                ordered: testFlavorLog.ordered,
-                                rating: testFlavorLog.rating,
-                                date: new Date(testFlavorLog.date),
-                                eatery_id: testFlavorLog.eatery_id
-                            })));
+                            .insert(testFlavorLogs);
                     });
             });
 

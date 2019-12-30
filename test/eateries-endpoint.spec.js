@@ -51,7 +51,41 @@ describe('Eateries Endpoints', () => {
     // GET /api/eateries/:eatery_id
         // responds with specified eatery
 
-    // POST /api/eateries
+    describe(`POST /api/eateries`, () => {
+        const testEateries = makeEateriesNoId()
+        beforeEach(`insert eateries`, () => {
+            return db
+                .into(`flavorlogs_eateries`)
+                .insert(testEateries);
+        });
+
+        it(`creates an eatery, responds with 201 and the new eatery`, () => {
+            const newEatery = {
+                name: 'New Eatery Name',
+                phone: '290-238-8800',
+                address: '23809 New Street, New City, NC 20911',
+                notes: 'New Notes'
+            }
+            return supertest(app)
+                .post(`/api/eateries`)
+                .send(newEatery)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.name).to.eql(newEatery.name)
+                    expect(res.body.phone).to.eql(newEatery.phone)
+                    expect(res.body.address).to.eql(newEatery.address)
+                    expect(res.body.notes).to.eql(newEatery.notes)
+                    expect(res.body).to.have.property('id')
+                    expect(res.headers.location).to.eql(`/api/eateries/${res.body.id}`)
+                })
+                .then(res => {
+                    supertest(app)
+                        .get(`/api/eateries/${res.body.id}`)
+                        .expect(res.body)
+                });
+        });
+
+    });
 
     // DELETE /api/eateries/:eatery_id
 
