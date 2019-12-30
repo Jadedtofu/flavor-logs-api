@@ -150,6 +150,75 @@ describe('Eateries Endpoints', () => {
         });
     });
 
-    // PATCH /api/eateries/:eatery_id
+    describe(`PATCH api/eateries/:eatery_id`, () => {
+        context(`Given no eateries`, () => {
+            it(`responds with 404`, () => {
+                const eateryId = 12345;
+                return supertest(app)
+                    .patch(`/api/eateries/${eateryId}`)
+                    .expect(404, { error: {
+                        message: `Eatery doesn't exist`}});
+            });
+        });
 
+        context(`Given there are eateries in the database`, () => {
+            const testEateries = makeEateriesArray();
+
+            beforeEach(`insert eateries`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries);
+            });
+
+            it(`responds with 204 when updating subset of fields`, () => {
+                const idtoUpdate = 2;
+                const updatedEatery = {
+                    name: 'Updated Name',
+                    phone: '320-300-3000',
+                    address: '3000 Updated Street, Update City, UC 30000',
+                    notes: 'Updated Note'
+                }
+
+                const expectedEatery = {
+                    ...testEateries[idtoUpdate -1],
+                    ...updatedEatery
+                }
+
+                return supertest(app)
+                    .patch(`/api/eateries/${idtoUpdate}`)
+                    .send(updatedEatery)
+                    .expect(204)
+                    .then(() =>
+                        supertest(app)
+                            .get(`/api/eateries/${idtoUpdate}`)
+                            .expect(expectedEatery)
+                    );
+            });
+
+            it(`responds with 204 when updating subset of fields`, () => {
+                const idtoUpdate = 2;
+                const updatedEatery = {
+                    name: 'New Updated Name'
+                }
+
+                const expectedEatery = {
+                    ...testEateries[idtoUpdate -1],
+                    ...updatedEatery
+                }
+
+                return supertest(app)
+                    .patch(`/api/eateries/${idtoUpdate}`)
+                    .send({
+                        ...updatedEatery,
+                        fieldToIgnore: `should not be in GET response`
+                    })
+                    .expect(204)
+                    .then(() =>
+                        supertest(app)
+                            .get(`/api/eateries/${idtoUpdate}`)
+                            .expect(expectedEatery)
+                    );
+            });
+        });
+    });
 });
