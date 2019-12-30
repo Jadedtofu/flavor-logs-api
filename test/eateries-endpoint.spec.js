@@ -114,7 +114,41 @@ describe('Eateries Endpoints', () => {
         });
     });
 
-    // DELETE /api/eateries/:eatery_id
+    describe(`DELETE /api/eateries/:eatery_id`, () => {
+        context(`Given no eateries`, () => {
+            it(`responds with 404`, () => {
+                const eateryId = 12345;
+                return supertest(app)
+                    .delete(`/api/eateries/${eateryId}`)
+                    .expect(404, {
+                        error: { message: `Eatery doesn't exist`}
+                    });
+            });
+        });
+
+        context(`Given there are eateries in the database`, () => {
+            const testEateries = makeEateriesArray();
+
+            beforeEach(`insert eateries`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries)
+            });
+
+            it(`responds with 204 and removes the eatery`, () => {
+                const idToRemove = 3;
+                const expectedEateries = testEateries.filter(eatery => eatery.id !== idToRemove);
+                return supertest(app)
+                    .delete(`/api/eateries/${idToRemove}`)
+                    .expect(204)
+                    .then(() => 
+                        supertest(app)
+                            .get(`/api/eateries`)
+                            .expect(expectedEateries)
+                    );
+            });
+        });
+    });
 
     // PATCH /api/eateries/:eatery_id
 

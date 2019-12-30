@@ -73,6 +73,18 @@ flavorLogsRouter
     })
     .get((req, res, next) => {
         res.json(serializedFlavorLog(res.flavorLog));
+    })
+    .delete((req, res, next) => {
+        FlavorLogsService.deleteFlavorLog(
+            req.app.get('db'),
+            req.params.flavorLog_id
+        )
+        .then(() => {
+            logger.info(`Flavor log with id ${req.params.flavorLog_id} deleted`)
+            res.status(204).end();
+        })
+        .catch();
     });
+    
 
 module.exports = flavorLogsRouter;

@@ -55,6 +55,43 @@ describe('FlavorLogs Endpoints', () => {
         });
     });
 
+    describe(`GET /api/flavorLogs/:flavorLog_id`, () => {
+        context(`Given there are no Flavor Logs`, () => {
+            it(`responds with 404`, () => {
+                const flavorLogId = 123456;
+                return supertest(app)
+                    .get(`/api/flavorLogs/${flavorLogId}`)
+                    .expect(404, {
+                        error: {message: `Flavor Log doesn't exist`}
+                    });
+            });
+        });
+
+        context(`Given there are Flavor Logs in the database`, () => {
+            const testEateries = makeEateriesArray();
+            const testFlavorLogs = makeFlavorLogsArray();
+
+            beforeEach(`insert Flavor Logs`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries)
+                    .then(() => {
+                        return db
+                            .into(`flavorlogs_logs`)
+                            .insert(testFlavorLogs);
+                    });
+            });
+
+            it(`responds with 200 and the specified Flavor Log`, () => {
+                const flavorLogId = 2;
+                const expectedFlavorLog = testFlavorLogs[flavorLogId -1];
+                return supertest(app)
+                    .get(`/api/flavorLogs/${flavorLogId}`)
+                    .expect(200, expectedFlavorLog);
+            });
+        });
+    });
+
     describe(`POST /api/flavorLogs`, () => {
         const testEateries = makeEateriesArray();
         const testFlavorLogs = makeFlavorLogsNoId();

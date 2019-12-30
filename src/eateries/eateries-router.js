@@ -70,6 +70,18 @@ eateriesRouter
     })
     .get((req, res, next) => {
         res.json(serializedEatery(res.eatery));
+    })
+    .delete((req, res, next) => {
+        EateriesService.deleteEatery(
+            req.app.get('db'),
+            req.params.eatery_id
+        )
+        .then(() => {
+            logger.info(`Eatery with id ${req.params.eatery_id} deleted`);
+            res.status(204).end();
+        })
+        .catch(next);
     });
+    
 
 module.exports = eateriesRouter;
