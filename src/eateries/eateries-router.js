@@ -50,10 +50,26 @@ eateriesRouter
         .catch(next);
     });
 
-// eateriesRouter
-//     .route('/:eatery_id')
-//     .all((req, res, next) => {
-
-//     })
+eateriesRouter
+    .route('/:eatery_id')
+    .all((req, res, next) => {
+        EateriesService.getById(
+            req.app.get('db'),
+            req.params.eatery_id
+        )
+        .then(eatery => {
+            if(!eatery) {
+                return res.status(404).json({
+                    error: { message: `Eatery doesn't exist`}
+                });
+            }
+            res.eatery = eatery; // saving eatery for next middleware
+            next();
+        })
+        .catch(next);
+    })
+    .get((req, res, next) => {
+        res.json(serializedEatery(res.eatery));
+    });
 
 module.exports = eateriesRouter;

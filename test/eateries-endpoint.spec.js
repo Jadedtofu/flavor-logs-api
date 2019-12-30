@@ -48,8 +48,36 @@ describe('Eateries Endpoints', () => {
         });
     });
 
-    // GET /api/eateries/:eatery_id
-        // responds with specified eatery
+    describe(`GET /api/eateries/:eatery_id`, () => {
+        context(`Given tehrea re no eateries`, () => {
+            it(`responds with 404`, () => {
+                const eateryId = 12345;
+                return supertest(app)
+                    .get(`/api/eateries/${eateryId}`)
+                    .expect(404, {
+                        error: { message: `Eatery doesn't exist` }
+                    });
+            });
+        });
+
+        context(`Given there are eateries in the database`, () => {
+            const testEateries = makeEateriesArray();
+
+            beforeEach(`insert eateries`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries)
+            });
+
+            it(`responds with 200 and the specified eatery`, () => {
+                const eateryId = 2;
+                const expectedEatery = testEateries[eateryId - 1];
+                return supertest(app)
+                    .get(`/api/eateries/${eateryId}`)
+                    .expect(200, expectedEatery);
+            });
+        });
+    });
 
     describe(`POST /api/eateries`, () => {
         const testEateries = makeEateriesNoId()
