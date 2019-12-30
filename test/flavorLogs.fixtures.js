@@ -7,6 +7,7 @@ function makeFlavorLogsArray() {
             ordered: "P13 - Rare Steak and Flank Beef Noodle Soup", 
             rating: 5, 
             date: "2019-11-10", 
+            image_link: "",
             eatery_id: 1
           },
           {
@@ -16,6 +17,7 @@ function makeFlavorLogsArray() {
             ordered: "Morning Coffee Roll", 
             rating: 4, 
             date: "2019-09-05", 
+            image_link: "https://i.imgur.com/K2yhmFe.jpg",
             eatery_id: 2},
           {
             id: 3, 
@@ -24,6 +26,7 @@ function makeFlavorLogsArray() {
             ordered: "Chicken & Noodles with Leek",
             rating: 3,
             date: "2019-07-05",
+            image_link: "",
             eatery_id: 3
           },
           {
@@ -33,6 +36,7 @@ function makeFlavorLogsArray() {
             ordered: "Peach Fluff Layered Cake",
             rating: 5,
             date: "2019-12-10",
+            image_link: "",
             eatery_id: 2
           },
           {
@@ -42,6 +46,7 @@ function makeFlavorLogsArray() {
             ordered: "Lamb Noodle Broth with Chives and Mushrooms",
             rating: 4,
             date: "2019-11-09",
+            image_link: "",
             eatery_id: 3
           }
     ];
@@ -55,6 +60,7 @@ function makeFlavorLogsNoId() {
             ordered: "P13 - Rare Steak and Flank Beef Noodle Soup", 
             rating: 5, 
             date: "2019-11-10", 
+            image_link: "",
             eatery_id: 1
           },
           {
@@ -63,6 +69,7 @@ function makeFlavorLogsNoId() {
             ordered: "Morning Coffee Roll", 
             rating: 4, 
             date: "2019-09-05", 
+            image_link: "https://i.imgur.com/K2yhmFe.jpg",
             eatery_id: 2},
           {
             title: "Local Homemade Noodles", 
@@ -70,6 +77,7 @@ function makeFlavorLogsNoId() {
             ordered: "Chicken & Noodles with Leek",
             rating: 3,
             date: "2019-07-05",
+            image_link: "",
             eatery_id: 3
           },
           {
@@ -78,6 +86,7 @@ function makeFlavorLogsNoId() {
             ordered: "Peach Fluff Layered Cake",
             rating: 5,
             date: "2019-12-10",
+            image_link: "",
             eatery_id: 2
           },
           {
@@ -86,6 +95,7 @@ function makeFlavorLogsNoId() {
             ordered: "Lamb Noodle Broth with Chives and Mushrooms",
             rating: 4,
             date: "2019-11-09",
+            image_link: "",
             eatery_id: 3
           }
     ];

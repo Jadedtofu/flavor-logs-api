@@ -5,6 +5,7 @@ CREATE TABLE flavorlogs_logs (
     ordered TEXT NOT NULL,
     rating INTEGER,
     date TEXT NOT NULL,
+    image_link TEXT,
     eatery_id INTEGER
         REFERENCES flavorlogs_eateries(id) ON DELETE CASCADE NOT NULL
 );
