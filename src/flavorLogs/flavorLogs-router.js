@@ -84,7 +84,30 @@ flavorLogsRouter
             res.status(204).end();
         })
         .catch();
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const { title, info, ordered, rating, date, image_link, eatery_id } = req.body;
+        const flavorLogToUpdate = { title, info, ordered, rating, date, image_link, eatery_id };
+
+        const numberOfValues = Object.values(flavorLogToUpdate).filter(Boolean).length;
+        if(numberOfValues === 0) {
+            return res.status(400).json({
+                error: {
+                    message: `Request body must contain 'title', 'info', 'ordered', 'rating', 'date', 'image_link', or 'eatery_id'`
+                }
+            });
+        }
+
+        FlavorLogsService.updateFlavorLog(
+            req.app.get('db'),
+            req.params.flavorLog_id,
+            flavorLogToUpdate
+        )
+        .then(() => {
+            logger.info(`Flavor Log with id ${req.params.flavorLog_id} updated`);
+            res.status(204).end()
+        })
+        .catch(next);
     });
-    
 
 module.exports = flavorLogsRouter;

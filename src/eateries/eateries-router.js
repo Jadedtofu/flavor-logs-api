@@ -81,7 +81,30 @@ eateriesRouter
             res.status(204).end();
         })
         .catch(next);
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const { name, phone, address, notes } = req.body;
+        const eateryToUpdate = { name, phone, address, notes };
+
+        const numberOfValues = Object.values(eateryToUpdate).filter(Boolean).length;
+        if(numberOfValues === 0) {
+            return res.status(400).json({
+                error: {
+                    message: `Request body must contain 'name', 'phone', 'address,' or 'notes'`
+                }
+            });
+        }
+
+        EateriesService.updateEatery(
+            req.app.get('db'),
+            req.params.eatery_id,
+            eateryToUpdate
+        )
+        .then(() => {
+            logger.info(`Eatery with id ${req.params.eatery_id} updated`);
+            res.status(204).end();
+        })
+        .catch(next);
     });
-    
 
 module.exports = eateriesRouter;
