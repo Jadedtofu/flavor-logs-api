@@ -193,7 +193,73 @@ describe('FlavorLogs Endpoints', () => {
             });
         });
 
+        context(`Given there are Flavor Logs in the database`, () => {
+            const testEateries = makeEateriesArray();
+            const testFlavorLogs = makeFlavorLogsArray();
 
-    })
+            beforeEach(`insert Flavor Logs`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries)
+                    .then(() => {
+                        return db
+                            .into(`flavorlogs_logs`)
+                            .insert(testFlavorLogs)
+                    });
+            });
 
+            it(`responds with 204 and updates the Flavor Log`, () => {
+                const idToUpdate = 3;
+                const updatedFlavorLog = {
+                    title: 'Updated Flavor Log',
+                    info: 'Updated info',
+                    ordered: 'Updated Order',
+                    rating: 4,
+                    date: '2019-12-30',
+                    image_link: '',
+                    eatery_id: 2
+                }
+
+                const expectedFlavorLog = {
+                    ...testFlavorLogs[idToUpdate -1],
+                    ...updatedFlavorLog
+                }
+
+                return supertest(app)
+                    .patch(`/api/flavorLogs/${idToUpdate}`)
+                    .send(updatedFlavorLog)
+                    .expect(204)
+                    .then(() =>
+                        supertest(app)
+                            .get(`/api/flavorLogs/${idToUpdate}`)
+                            .expect(expectedFlavorLog)
+                    );
+            });
+
+            it(`responds with 204 when updating a subset of fields`, () => {
+                const idToUpdate = 3;
+                const updatedFlavorLog = {
+                    title: 'Updated Flavor Log'
+                }
+
+                const expectedFlavorLog = {
+                    ...testFlavorLogs[idToUpdate -1],
+                    ...updatedFlavorLog
+                }
+
+                return supertest(app)
+                    .patch(`/api/flavorLogs/${idToUpdate}`)
+                    .send({
+                        ...updatedFlavorLog,
+                        fieldToIgnore: `Should not be in GET response`
+                    })
+                    .expect(204)
+                    .then(() =>
+                        supertest(app)
+                            .get(`/api/flavorLogs/${idToUpdate}`)
+                            .expect(expectedFlavorLog)
+                    );
+            });
+        });
+    });
 });
