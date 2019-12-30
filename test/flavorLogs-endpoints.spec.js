@@ -183,4 +183,17 @@ describe('FlavorLogs Endpoints', () => {
         });
     });
 
+    describe(`PATCH /api/flavorLogs/:flavorLog_id`, () => {
+        context(`Given no Flavor Logs`, () => {
+            it(`responds with 404`, () => {
+                const flavorLogId = 123456;
+                return supertest(app)
+                    .patch(`/api/flavorLogs/${flavorLogId}`)
+                    .expect(404, { error: { message: `Flavor Log doesn't exist`}});
+            });
+        });
+
+
+    })
+
 });
