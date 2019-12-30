@@ -8,13 +8,13 @@ const flavorLogsRouter = express.Router();
 const jsonParser = express.json();
 
 const serializedFlavorLog = flavorLog => ({
-    id: flavorlog.id,
-    title: xss(flavorlog.title),
-    info: xss(flavorlog.info),
-    ordered: xss(flavorlog.ordered),
-    rating: flavorlog.rating,
-    date: new Date(flavorlog.date),
-    eatery_id: flavorlog.eatery_id,
+    id: flavorLog.id,
+    title: xss(flavorLog.title),
+    info: xss(flavorLog.info),
+    ordered: xss(flavorLog.ordered),
+    rating: flavorLog.rating,
+    date: new Date(flavorLog.date),
+    eatery_id: flavorLog.eatery_id,
 });
 
 flavorLogsRouter
@@ -23,10 +23,42 @@ flavorLogsRouter
         FlavorLogsService.getAllFlavorLogs(
             req.app.get('db')
         )
-        .then(flavorlogs => {
-            res.json(flavorlogs.map(serializedFlavorLog))
+        .then(flavorLogs => {
+            res.json(flavorLogs.map(serializedFlavorLog))
         })
         .catch(next);
     })
+    .post(jsonParser, (req, res, next) => {
+        const { title, info, ordered, rating, eatery_id } = req.body;
+        const newFlavorLog = { title, info, ordered, rating, eatery_id };
+
+        for (const [key, value] of Object.entries(newFlavorLog)) {
+            if (value == null) {
+                return res.status(400).json({
+                    error: { message: `Missing '${key}' in request body`}
+                });
+            }
+        }
+        FlavorLogsService.insertFlavorLog(
+            req.app.get('db'),
+            newFlavorLog
+        )
+        .then(flavorLog => {
+            logger.info(`Flavor Log with id ${flavorLog.id} created`)
+            res.status(201)
+                .location(path.posix.join(req.originalUrl, `/${flavorLog.id}`))
+                .json(serializedFlavorLog(flavorLog));
+        })
+        .catch(next);
+    });
+
+// flavorLogsRouter
+//     .route('/:flavorLogs_id')
+//     .all((req, res, next) => {
+//         FlavorLogsService.getById(
+//             req.app.get('db'),
+//             req.params.flavorLogs_id
+//         )
+//     })
 
 module.exports = flavorLogsRouter;

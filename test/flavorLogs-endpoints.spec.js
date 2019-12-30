@@ -27,7 +27,7 @@ describe('FlavorLogs Endpoints', () => {
         context(`Given no flavorLogs`, () => {
             it(`responds with 200 and an empty list`, () => {
                 return supertest(app)
-                    .get(`/api/logs`)
+                    .get(`/api/flavorLogs`)
                     .expect(200, []);
             });
         });
@@ -58,7 +58,7 @@ describe('FlavorLogs Endpoints', () => {
             it(`responds with 200 and all the flavorLogs`, () => {
                 return supertest(app)
                     .get(`/api/flavorLogs`)
-                    .expect(200, testEateries);
+                    .expect(200, testFlavorLogs);
             });
         });
     });
