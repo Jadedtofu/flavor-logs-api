@@ -141,4 +141,46 @@ describe('FlavorLogs Endpoints', () => {
         });
     });
 
+    describe(`DELETE /api/flavorLogs/:flavorLogs_id`, () => {
+        context(`Given no Flavor Logs`, () => {
+            it(`responds with 404`, () => {
+                const flavorLogId = 12345;
+                return supertest(app)
+                    .delete(`/api/flavorLogs/${flavorLogId}`)
+                    .expect(404, {
+                        error: { message: `Flavor Log doesn't exist`}
+                    });
+            });
+        });
+
+        context(`Given there are Flavor Logs in the database`, () => {
+            const testEateries = makeEateriesArray();
+            const testFlavorLogs = makeFlavorLogsArray();
+
+            beforeEach(`insert Flavor Logs`, () => {
+                return db
+                    .into(`flavorlogs_eateries`)
+                    .insert(testEateries)
+                    .then(() => {
+                        return db
+                            .into(`flavorlogs_logs`)
+                            .insert(testFlavorLogs);
+                    });
+            });
+
+            it(`responds with 204 and removes the Flavor Log`, () => {
+                const idToRemove = 4;
+                const expectedFlavorLogs = testFlavorLogs.filter(flavorLog => flavorLog.id !== idToRemove);
+                return supertest(app)
+                    .delete(`/api/flavorLogs/${idToRemove}`)
+                    .expect(204)
+                    .then(() =>
+                        supertest(app)
+                            .get(`/api/flavorLogs`)
+                            .expect(expectedFlavorLogs)
+                    );
+            });
+        });
+    });
+
 });
