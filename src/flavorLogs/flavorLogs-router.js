@@ -15,6 +15,7 @@ const serializedFlavorLog = flavorLog => ({
     rating: flavorLog.rating,
     date: xss(flavorLog.date),
     image_link: xss(flavorLog.image_link),
+    image_alt: xss(flavorLog.image_alt),
     eatery_id: flavorLog.eatery_id,
 });
 
@@ -30,8 +31,8 @@ flavorLogsRouter
         .catch(next);
     })
     .post(jsonParser, (req, res, next) => {
-        const { title, info, ordered, rating, date, image_link, eatery_id } = req.body;
-        const newFlavorLog = { title, info, ordered, rating, date, image_link, eatery_id };
+        const { title, info, ordered, rating, date, image_link, image_alt, eatery_id } = req.body;
+        const newFlavorLog = { title, info, ordered, rating, date, image_link, image_alt, eatery_id };
 
         for (const [key, value] of Object.entries(newFlavorLog)) {
             if (value == null) {
@@ -86,14 +87,14 @@ flavorLogsRouter
         .catch();
     })
     .patch(jsonParser, (req, res, next) => {
-        const { title, info, ordered, rating, date, image_link, eatery_id } = req.body;
-        const flavorLogToUpdate = { title, info, ordered, rating, date, image_link, eatery_id };
+        const { title, info, ordered, rating, date, image_link, image_alt, eatery_id } = req.body;
+        const flavorLogToUpdate = { title, info, ordered, rating, date, image_link, image_alt, eatery_id };
 
         const numberOfValues = Object.values(flavorLogToUpdate).filter(Boolean).length;
         if(numberOfValues === 0) {
             return res.status(400).json({
                 error: {
-                    message: `Request body must contain 'title', 'info', 'ordered', 'rating', 'date', 'image_link', or 'eatery_id'`
+                    message: `Request body must contain 'title', 'info', 'ordered', 'rating', 'date', 'image_link', 'image_alt', or 'eatery_id'`
                 }
             });
         }

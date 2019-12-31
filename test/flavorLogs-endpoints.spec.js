@@ -115,6 +115,7 @@ describe('FlavorLogs Endpoints', () => {
                 rating: 5,
                 date: "2019-12-29",
                 image_link: "",
+                image_alt: "",
                 eatery_id: 2
             }
 
@@ -129,6 +130,7 @@ describe('FlavorLogs Endpoints', () => {
                     expect(res.body.rating).to.eql(newFlavorLog.rating)
                     expect(res.body.date).to.eql(newFlavorLog.date)
                     expect(res.body.image_link).to.eql(newFlavorLog.image_link)
+                    expect(res.body.image_alt).to.eql(newFlavorLog.image_alt)
                     expect(res.body).to.have.property('id')
                     expect(res.body).to.have.property('eatery_id')
                     expect(res.headers.location).to.eql(`/api/flavorLogs/${res.body.id}`)
@@ -217,6 +219,7 @@ describe('FlavorLogs Endpoints', () => {
                     rating: 4,
                     date: '2019-12-30',
                     image_link: '',
+                    image_alt: '',
                     eatery_id: 2
                 }
 
