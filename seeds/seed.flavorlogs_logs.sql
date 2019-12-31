@@ -1,4 +1,4 @@
-INSERT INTO flavorlogs_logs (title, info, ordered, rating, date, image_link, eatery_id)
+INSERT INTO flavorlogs_logs (title, info, ordered, rating, date, image_link, image_alt, eatery_id)
 VALUES
     ('Best pho in town', 'The broth is clear, flavorful, and not greasy at all! The rare steak was not overcooked; the flank was tender. The noodles were soft, but not too soft to break apart with chopsticks. Will go here again!', 'P13 - Rare Steak and Flank Beef Noodle Soup', 5, '2019-11-10', '', '', 1),
     ('Softest bread', 'The lines were a little long, but worth it. Softest bread roll to start the day. The aroma was perfect, resembling a nice cup of freshly brewed coffee, and the flavor was not overbearing', 'Morning Coffee Roll', 4, '2019-09-05', 'https://i.imgur.com/K2yhmFe.jpg', 'Coffee Roll next to cup of latte', 2),
