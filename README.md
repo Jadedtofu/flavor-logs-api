@@ -22,7 +22,7 @@ A Node, Express, PostgreSQL back-end for the Flavor Logs app. This Flavor Logs d
 The API relies on a PSQL database. This will need to be configured for data to be seeded or reset.
 
 # Using the API
-The API has endpoints for handling CRUD operations for the roomies and chores. Start the server and use [Postman](https://www.getpostman.com/) or a similar tool to test out the endpoints.
+The API has endpoints for handling CRUD operations for the Flavor Logs and Eateries. Start the server and use [Postman](https://www.getpostman.com/) or a similar tool to test out the endpoints.
 
 ## Flavor Logs Endpoints
 **GET** `/flavorLogs` <br>
