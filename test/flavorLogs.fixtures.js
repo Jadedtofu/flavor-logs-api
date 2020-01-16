@@ -20,7 +20,8 @@ function makeFlavorLogsArray() {
             date: '2019-09-05', 
             image_link: 'https://i.imgur.com/K2yhmFe.jpg',
             image_alt: 'Coffee Roll next to cup of latte',
-            eatery_id: 2},
+            eatery_id: 2
+          },
           {
             id: 3, 
             title: 'Local Homemade Noodles', 
